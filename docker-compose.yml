@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: ./
+    container_name: kaliper-pos-vue-app
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - kaliper-pos
+
+  web:
+    image: nginx:latest
+    container_name: kaliper-pos-vue-nginx
+    ports:
+      - '8081:80'
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - kaliper-pos
+
+networks:
+  kaliper-pos:
